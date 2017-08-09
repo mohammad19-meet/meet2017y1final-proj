@@ -8,6 +8,7 @@ turtle.tracer(1,0)
 enemy = turtle.clone()
 enemy.penup()
 enemy.goto(200,0)
+clicker = turtle.clone()
 turtle.register_shape("ghost_F.gif")
 enemy.shape("ghost_F.gif")
 does_player_have_food= False
@@ -18,7 +19,7 @@ vil_pos.append(vill_tup)
 
 #enemy.shape("circle")
 #screan size
-SIZE_X = 1028
+SIZE_X = 1280
 SIZE_Y = 800
 turtle.setup(SIZE_X, SIZE_Y)
 #square size
@@ -122,27 +123,26 @@ def move_ghost():
         enemy.goto(en_x_pos - (1.5*SQUARE_SIZE), en_y_pos)
         en_pos = enemy.pos()
         enemy_pos_list.append(en_pos)
-    if en_x_pos >= 514:
+    if en_x_pos >= SIZE_X/2:
         enemy.ht()
-        enemy.goto(-512, en_y_pos)
+        enemy.goto(-SIZE_X/2-2, en_y_pos)
         enemy.showturtle()
 
-    elif en_x_pos <= -514:
+    elif en_x_pos <= -SIZE_X/2:
         enemy.ht()
-        enemy.goto(512, en_y_pos)
+        enemy.goto(SIZE_X/2-2, en_y_pos)
         enemy.showturtle()
 
-    elif en_y_pos >= 400:
+    elif en_y_pos >= SIZE_Y/2:
         enemy.ht()
-        enemy.goto(en_x_pos, -398)
+        enemy.goto(en_x_pos, -SIZE_Y/2-2)
         enemy.showturtle()
 
-    elif en_y_pos <= -400:
+    elif en_y_pos <= -SIZE_Y/2:
         enemy.ht()
-        enemy.goto(en_x_pos, 398)
+        enemy.goto(en_x_pos, SIZE_Y/2-2)
         enemy.showturtle()
     turtle.ontimer(move_ghost, TIME_STEP)
-move_ghost()
 
 turtle.onkeypress(left, "Left")
 turtle.onkeypress(right, "Right")
@@ -216,8 +216,8 @@ def move_player():
         print("success")
         if if_player_food == True:
             score.clear()
-            count +=1
-            score.write("scpre: "+str(count))
+            count +=100
+            score.write("score: "+str(count))
         if_player_food = False
     
         
@@ -227,7 +227,9 @@ def move_player():
     turtle.ontimer(move_player,TIME_STEP)
  
         
-    
-        
-move_player()
+def start(): 
+    move_ghost() 
+    move_player()
+    print("asd")
+turtle.onclick(start())
 
