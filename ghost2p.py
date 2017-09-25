@@ -1,13 +1,8 @@
 import random
 import time
 import turtle
-import pygame
-pygame.init()
-
-pygame.mixer.init()
-pygame.mixer.music.load("bgmusic.mp3")
-pygame.mixer.music.play(-1)
-
+countdownT = turtle.clone()
+countdownT.ht()
 turtle.tracer(1,0)
 enemy = turtle.clone()
 enemy.st()
@@ -16,16 +11,34 @@ enemy.goto(200,-100)
 turtle.register_shape("ghost.gif")
 enemy.shape("ghost.gif")
 does_player_have_food= False
-
-vil_pos = []
-vill_tup = (400,400)
-vil_pos.append(vill_tup)
+import timer
+def check_time():
+    if timer.choose == 0:
+        countdownT.clear()
+        countdownT.penup()
+        countdownT.goto(0,0)
+        countdownT.pendown()
+        countdownT.pencolor("white")
+        countdownT.write("Player won!", font=("Ariel", 48, "normal"))
+        time.sleep(3)
+        quit()
+        turtle.ontimer(check_time, TIME_STEP)
 
 #enemy.shape("circle")
 #screan size
 SIZE_X = 1280
 SIZE_Y = 800
 turtle.setup(SIZE_X, SIZE_Y)
+
+countdownT.penup()
+countdownT.goto(SIZE_X/2-190, SIZE_Y/2 - 100)
+countdownT.pendown()
+#setting count down
+time1 =countdownT.clone()
+time1.goto(SIZE_X/2-250, SIZE_Y/2 - 100)
+time1.pencolor("white")
+time1.write("time: " , font=("Ariel", 18, "normal"))
+
 #square size
 SQUARE_SIZE = 20
 #doing the borders
@@ -64,9 +77,7 @@ turtle.register_shape("player_F.gif")
 turtle.shape("player_F.gif")
 score = turtle.clone()
 score.hideturtle()
-score.goto(SIZE_X/2-250, SIZE_Y/2 - 100)
-score.pencolor("white")
-score.write("score: " ,font=("Arial", 28, "normal"))
+
 count = 0
 village = turtle.clone()
 turtle.register_shape("village.gif")
@@ -143,7 +154,7 @@ def move_ghost():
         enemy_pos_list.append(en_pos)
     if en_x_pos >= SIZE_X/2:
         enemy.ht()
-        enemy.goto(-SIZE_X/2-2, en_y_pos)
+        enemy.goto(-SIZE_X/2+2, en_y_pos)
         enemy.showturtle()
 
     elif en_x_pos <= -SIZE_X/2:
@@ -153,7 +164,7 @@ def move_ghost():
 
     elif en_y_pos >= SIZE_Y/2:
         enemy.ht()
-        enemy.goto(en_x_pos, -SIZE_Y/2-2)
+        enemy.goto(en_x_pos, -SIZE_Y/2+2)
         enemy.showturtle()
 
     elif en_y_pos <= -SIZE_Y/2:
@@ -215,6 +226,7 @@ def move_player():
     if -30 <enemy.pos()[0] - turtle.pos()[0] < 30 and -30 < enemy.pos()[1] - turtle.pos()[1] < 30:
         turtle.goto(-100,0)
         turtle.pencolor("white")
+        time1.clear()
         turtle.write("ghost won!", font=("Ariel", 48, "normal"))
         time.sleep(5)  
         quit()
